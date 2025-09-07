@@ -13,6 +13,12 @@
         android:theme="@style/Theme.Pathology"
         tools:targetApi="31">
         <activity
+            android:name=".MenuActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ForgotActivity"
+            android:exported="false" />
+        <activity
             android:name=".InboxActivity"
             android:exported="false" />
         <activity
@@ -22,7 +28,7 @@
             android:name=".RequestActivity"
             android:exported="false" />
         <activity
-            android:name=".SplashActivity"
+            android:name=".HomeScreen"
             android:exported="false" />
         <activity
             android:name=".Signup"
@@ -34,7 +40,7 @@
             android:name=".LoginActivity"
             android:exported="false" />
         <activity
-            android:name=".HomeScreen"
+            android:name=".SplashActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
