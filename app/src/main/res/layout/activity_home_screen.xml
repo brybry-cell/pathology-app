@@ -7,7 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@drawable/gradient_background"
+    android:background="@color/white"
     tools:context=".HomeScreen">
 
 
@@ -15,27 +15,47 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginLeft="-140dp"
-        android:layout_marginTop="60dp"
-        android:layout_gravity="center">
+        android:layout_marginTop="50dp"
+        android:layout_gravity="left">
 
         <ImageView
             android:id="@+id/image"
-            android:layout_width="55dp"
+            android:layout_width="50dp"
             android:layout_height="50dp"
-            android:background="@drawable/profile_icon"
-            android:layout_marginLeft="10dp"
+            android:background="@drawable/shapes"
+            android:src="@drawable/baseline_person_24"
+            android:layout_marginLeft="30dp"
             android:contentDescription="App logo"/>
-
         <TextView
+            android:id="@+id/tvName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
-            android:text="Hi"
+            android:text=""
             android:textStyle="bold"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="1dp"
             android:textColor="@color/black"
-            android:textSize="15sp"/>
+            android:textSize="20sp"/>
+
+
+        <TextView
+            android:id="@+id/tvEmail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="-165dp"
+            android:text=""
+            android:textStyle="bold"
+            android:layout_marginTop="20dp"
+            android:textColor="@color/black"
+            android:textSize="10sp"/>
+
+            <ImageView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:src="@drawable/baseline_menu_24"
+                android:layout_marginLeft="265dp"
+                android:clickable="true"
+                android:focusable="true"/>
     </LinearLayout>
 
 
@@ -65,7 +85,7 @@
         android:id="@+id/bottom_nav"
         android:layout_marginBottom="12dp"
         android:layout_width="380dp"
-        android:layout_height="75dp"
+        android:layout_height="65dp"
         android:background="@drawable/botton_background"
         android:elevation="2dp"
         app:menu="@menu/bottom_menu"

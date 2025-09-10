@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:gravity="center"
-    android:background="@color/red"
+    android:background="@drawable/gradient_background"
     tools:context=".LoginActivity">
 
 
@@ -25,13 +25,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="PATHOLOGY"
-        android:textColor="@color/black"
+        android:textColor="@color/white"
         android:textSize="32sp"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="LabTrack"
-        android:textColor="@color/black"
+        android:textColor="@color/white"
         android:textSize="16sp"
         android:paddingBottom="20dp"/>
 

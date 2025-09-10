@@ -32,10 +32,16 @@ android {
 }
 
 dependencies {
+    // ✅ Volley for HTTP Requests
+    implementation ("com.android.volley:volley:1.2.1")
+
+    // AndroidX + UI Libraries
     implementation(libs.appcompat)
     implementation("com.google.android.material:material:1.12.0")
     implementation(libs.activity)
     implementation(libs.constraintlayout)
+
+    // Testing
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
