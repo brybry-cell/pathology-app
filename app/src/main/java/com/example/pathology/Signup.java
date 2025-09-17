@@ -2,6 +2,7 @@ package com.example.pathology;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MotionEvent;
 import android.widget.EditText;
 import android.widget.Button;
 import android.widget.TextView;
@@ -28,6 +29,7 @@ public class Signup extends AppCompatActivity {
     Button btnRegister;
     TextView login;
 
+    private boolean isPasswordVisible = true;
     private static final String URL_SIGNUP = "https://pathologylabtrack.swuitapp.com/signup.php";
 
     @Override
@@ -44,6 +46,62 @@ public class Signup extends AppCompatActivity {
 
         btnRegister.setOnClickListener(v -> sendSignupRequest());
         login.setOnClickListener(v -> startActivity(new Intent(this, LoginActivity.class)));
+
+        etPassword.setOnTouchListener((v, event) -> {
+            final int DRAWABLE_END = 2; // right side drawable index
+
+            if (event.getAction() == MotionEvent.ACTION_UP) {
+                if (event.getRawX() >= (etPassword.getRight() - etPassword.getCompoundDrawables()[DRAWABLE_END].getBounds().width())) {
+
+                    if (isPasswordVisible) {
+                        // Hide password
+                        etPassword.setTransformationMethod(android.text.method.PasswordTransformationMethod.getInstance());
+                        etPassword.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.hidden, 0);
+                        isPasswordVisible = false;
+                    } else {
+                        // Show password
+                        etPassword.setTransformationMethod(android.text.method.HideReturnsTransformationMethod.getInstance());
+                        etPassword.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.nothidden, 0);
+                        isPasswordVisible = true;
+                    }
+
+                    etPassword.setSelection(etPassword.getText().length()); // keep cursor at end
+                    return true;
+                }
+            }
+            return false;
+        });
+
+        etConfirmPassword.setOnTouchListener((v, event) -> {
+            final int DRAWABLE_END = 2; // right side drawable index
+
+            if (event.getAction() == MotionEvent.ACTION_UP) {
+                if (event.getRawX() >= (etPassword.getRight() - etPassword.getCompoundDrawables()[DRAWABLE_END].getBounds().width())) {
+
+                    if (isPasswordVisible) {
+                        // Hide password
+                        etPassword.setTransformationMethod(android.text.method.PasswordTransformationMethod.getInstance());
+                        etPassword.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.hidden, 0);
+                        isPasswordVisible = false;
+                    } else {
+                        // Show password
+                        etPassword.setTransformationMethod(android.text.method.HideReturnsTransformationMethod.getInstance());
+                        etPassword.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.nothidden, 0);
+                        isPasswordVisible = true;
+                    }
+
+                    etPassword.setSelection(etPassword.getText().length()); // keep cursor at end
+                    return true;
+                }
+            }
+            return false;
+        });
+    }
+
+    private boolean isValidPassword(String password) {
+        // Min 12 chars, at least 1 letter, 1 number, 1 special character
+        String passwordPattern = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{12,}$";
+        return password.matches(passwordPattern);
     }
 
     private void sendSignupRequest() {
@@ -61,8 +119,8 @@ public class Signup extends AppCompatActivity {
             return;
         }
 
-        if (inputPassword.length() < 6) {
-            Toast.makeText(this, "Password must be at least 6 characters", Toast.LENGTH_SHORT).show();
+        if (!isValidPassword(inputPassword)) {
+            Toast.makeText(this, "Password must be at least 12 characters, include letters, numbers, and 1 special character.", Toast.LENGTH_LONG).show();
             return;
         }
 
@@ -81,7 +139,7 @@ public class Signup extends AppCompatActivity {
 
                         if ("success".equals(status)) {
                             Toast.makeText(Signup.this, "Signup completed!", Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent(Signup.this, HomeScreen.class);
+                            Intent intent = new Intent(Signup.this, LoginActivity.class);
                             startActivity(intent);
                             finish();
                         } else {

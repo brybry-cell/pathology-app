@@ -1,14 +1,16 @@
 package com.example.pathology;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-
-import androidx.activity.EdgeToEdge;
-import androidx.appcompat.app.AppCompatActivity;
-import android.widget.EditText;
+import android.view.MotionEvent;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.activity.EdgeToEdge;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -27,6 +29,7 @@ public class LoginActivity extends AppCompatActivity {
     Button btnlogin;
     TextView crtaccount, ForgotPassword;
 
+    boolean isPasswordVisible = false;
     private static final String URL_LOGIN = "https://pathologylabtrack.swuitapp.com/login.php";
 
     @Override
@@ -44,6 +47,26 @@ public class LoginActivity extends AppCompatActivity {
         btnlogin.setOnClickListener(v -> loginUser());
         crtaccount.setOnClickListener(v -> startActivity(new Intent(this, Register.class)));
         ForgotPassword.setOnClickListener(v -> startActivity(new Intent(this, ForgotActivity.class)));
+
+        etPassword.setOnTouchListener((v, event) -> {
+            final int DRAWABLE_END = 2;
+            if (event.getAction() == MotionEvent.ACTION_UP) {
+                if (event.getRawX() >= (etPassword.getRight() - etPassword.getCompoundDrawables()[DRAWABLE_END].getBounds().width())) {
+                    if (isPasswordVisible) {
+                        etPassword.setTransformationMethod(android.text.method.PasswordTransformationMethod.getInstance());
+                        etPassword.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.hidden, 0);
+                        isPasswordVisible = false;
+                    } else {
+                        etPassword.setTransformationMethod(android.text.method.HideReturnsTransformationMethod.getInstance());
+                        etPassword.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.nothidden, 0);
+                        isPasswordVisible = true;
+                    }
+                    etPassword.setSelection(etPassword.getText().length());
+                    return true;
+                }
+            }
+            return false;
+        });
     }
 
     private void loginUser() {
@@ -63,41 +86,39 @@ public class LoginActivity extends AppCompatActivity {
                         String message = jsonObject.getString("message");
 
                         if (status.equals("success")) {
-                            int dbId = jsonObject.getInt("db_id");
                             String firstname = jsonObject.getString("firstname");
                             String lastname = jsonObject.getString("lastname");
                             String email = jsonObject.getString("email");
 
+                            // ✅ Save to SharedPreferences
+                            SharedPreferences prefs = getSharedPreferences("MyAppPrefs", MODE_PRIVATE);
+                            SharedPreferences.Editor editor = prefs.edit();
+                            editor.putString("user_id", inputIDnumber);
+                            editor.putString("firstname", firstname);
+                            editor.putString("lastname", lastname);
+                            editor.putString("email", email);
+                            editor.apply();
+
                             Toast.makeText(LoginActivity.this, "Welcome " + firstname, Toast.LENGTH_SHORT).show();
 
-                            // ✅ Redirect to HomeScreen with user info
                             Intent intent = new Intent(LoginActivity.this, HomeScreen.class);
-                            intent.putExtra("db_id", dbId);
-                            intent.putExtra("firstname", firstname);
-                            intent.putExtra("lastname", lastname);
-                            intent.putExtra("email", email);
                             startActivity(intent);
                             finish();
+
                         } else {
                             Toast.makeText(LoginActivity.this, message, Toast.LENGTH_LONG).show();
                         }
                     } catch (JSONException e) {
-                        Toast.makeText(LoginActivity.this, "Response parse error: " + response, Toast.LENGTH_LONG).show();
                         e.printStackTrace();
+                        Toast.makeText(LoginActivity.this, "Response parse error", Toast.LENGTH_LONG).show();
                     }
                 },
-                error -> {
-                    if (error.networkResponse != null) {
-                        String responseBody = new String(error.networkResponse.data);
-                        Toast.makeText(LoginActivity.this, "Server said: " + responseBody, Toast.LENGTH_LONG).show();
-                    } else {
-                        Toast.makeText(LoginActivity.this, "Network error: " + error.toString(), Toast.LENGTH_LONG).show();
-                    }
-                }) {
+                error -> Toast.makeText(LoginActivity.this, "Network error: " + error, Toast.LENGTH_LONG).show()
+        ) {
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
-                params.put("user_id", inputIDnumber); // ✅ match with login.php
+                params.put("user_id", inputIDnumber);
                 params.put("password", inputPassword);
                 return params;
             }

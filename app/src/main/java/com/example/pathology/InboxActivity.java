@@ -2,21 +2,25 @@ package com.example.pathology;
 
 import android.content.Intent;
 import android.os.Bundle;
-
+import androidx.cardview.widget.CardView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class InboxActivity extends AppCompatActivity {
 
+    CardView example;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_inbox);
 
+        example = findViewById(R.id.example);
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_nav);
         bottomNavigationView.setSelectedItemId(R.id.bottom_inbox);
 
+        example.setOnClickListener(v-> startActivity(new Intent(this, InboxActivity.class)));
         bottomNavigationView.setOnItemSelectedListener(item -> {
             int id = item.getItemId();
 

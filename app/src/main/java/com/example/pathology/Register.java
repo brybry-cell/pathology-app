@@ -47,7 +47,6 @@ public class Register extends AppCompatActivity {
         btnNext.setOnClickListener(v -> sendRegisterRequest());
         login.setOnClickListener(v -> startActivity(new Intent(this, LoginActivity.class)));
     }
-
     private void sendRegisterRequest() {
         String inputLastname = etLastname.getText().toString().trim();
         String inputFirstname = etFirstname.getText().toString().trim();
@@ -70,6 +69,7 @@ public class Register extends AppCompatActivity {
             Toast.makeText(this, "Birthday must be in YYYY-MM-DD format", Toast.LENGTH_SHORT).show();
             return;
         }
+
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST, URL_REGISTER,
                 response -> {

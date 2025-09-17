@@ -12,7 +12,8 @@
     <item
         android:id="@+id/bottom_return"
         android:icon="@drawable/return_icon"
-        android:title="Return"/>
+        android:title="Return"
+        />
     <item
         android:id="@+id/bottom_inbox"
         android:icon="@drawable/inbox_icon"

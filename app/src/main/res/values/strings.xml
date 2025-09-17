@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Pathology</string>
+    <string name="important">*</string>
 </resources>

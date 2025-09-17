@@ -1,29 +1,96 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
+    android:background="@drawable/gradient_background"
     tools:context=".RequestActivity">
 
-    <FrameLayout
-        android:id="@+id/fragment_container"
+    <!-- Search Bar -->
+    <LinearLayout
+        android:id="@+id/searchContainer"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="50dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_marginStart="12dp"
+            android:background="@drawable/search_background"
+            android:paddingHorizontal="12dp">
+
+            <ImageView
+                android:id="@+id/searchIcon"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_centerVertical="true"
+                android:layout_alignParentStart="true"
+                android:src="@drawable/search" />
+
+            <ImageView
+                android:id="@+id/filterIcon"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_centerVertical="true"
+                android:layout_alignParentEnd="true"
+                android:src="@drawable/filter"
+                android:clickable="true"
+                android:focusable="true" />
+
+            <EditText
+                android:id="@+id/searchBar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@id/searchIcon"
+                android:layout_toStartOf="@id/filterIcon"
+                android:layout_marginTop="12dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:hint="Search..."
+                android:background="@android:color/transparent"
+                android:textColor="@color/black"
+                android:inputType="text" />
+        </RelativeLayout>
+    </LinearLayout>
+
+    <!-- RecyclerView for dynamic CardViews -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerItems"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"/>
+        android:layout_below="@id/searchContainer"
+        android:layout_above="@id/viewSummaryBtn"
+        android:padding="8dp"/>
 
+    <!-- View Summary Button -->
+    <Button
+        android:id="@+id/viewSummaryBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="View Summary"
+        android:layout_above="@id/bottom_nav"
+        android:layout_margin="16dp"
+        android:backgroundTint="@color/white"
+        android:textColor="@color/grey"
+        android:textStyle="bold" />
+
+    <!-- Bottom Navigation -->
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_nav"
-        android:layout_marginLeft="12dp"
-        android:layout_marginBottom="12dp"
-        android:layout_width="380dp"
-        android:layout_height="75dp"
+        android:layout_width="match_parent"
+        android:layout_marginBottom="20dp"
+        android:layout_height="65dp"
+        android:layout_alignParentBottom="true"
         android:background="@drawable/botton_background"
         android:elevation="2dp"
+        app:itemIconSize="24dp"
+        app:itemIconTint="@drawable/item_selector"
         app:menu="@menu/bottom_menu"
-        app:itemIconSize="30dp"
-        app:itemIconTint="@drawable/item_selector"/>
+        style="@style/NoPaddingBottomNav"/>
 
-</LinearLayout>
+</RelativeLayout>
